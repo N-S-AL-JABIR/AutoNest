@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .profile-card {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .profile-card h2 {
+    font-weight: 700;
+    color: #343a40;
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-card ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .profile-card li {
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+    padding-left: 0.3rem;
+  }
+
+  .btn-fancy {
+    background: linear-gradient(to right, #0d6efd, #6610f2);
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 25px;
+    padding: 0.4rem 1.2rem;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-fancy:hover {
+    background: linear-gradient(to right, #0b5ed7, #520dc2);
+  }
+
+  .purchase-card {
+    background: #f8f9fa;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1rem;
+    border-radius: 15px;
+    border-left: 4px solid #0d6efd;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .purchase-card p {
+    margin: 0;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  .remove-btn {
+    font-size: 0.875rem;
+    padding: 0.3rem 1rem;
+    background: #dc3545;
+    color: white;
+    border-radius: 25px;
+    border: none;
+    transition: background 0.3s ease;
+  }
+
+  .remove-btn:hover {
+    background: #b02a37;
+  }
+</style>
+
+<div class="profile-card">
+  <h2>👤 My Profile</h2>
+  <ul>
+    <li><strong>Username:</strong> {{ user.username }}</li>
+    <li><strong>Email:</strong> {{ user.email }}</li>
+    {% if user.first_name %}
+    <li><strong>First Name:</strong> {{ user.first_name }}</li>
+    {% endif %}
+    {% if user.last_name %}
+    <li><strong>Last Name:</strong> {{ user.last_name }}</li>
+    {% endif %}
+  </ul>
+
+  <div class="mt-4">
+    <a href="{% url 'edit_profile' %}" class="btn btn-fancy">Edit Profile</a>
+    <a href="{% url 'change_pass' %}" class="btn btn-fancy">Change Password</a>
+  </div>
+</div>
+
+<div class="profile-card mt-5">
+  <h4>🛒 My Purchases</h4>
+  {% if purchases %}
+    {% for p in purchases %}
+      <div class="purchase-card d-flex justify-content-between align-items-center">
+        <p>{{ p.car.model_name }} - {{ p.car.price }}$ </p>
+        <form method="post" action="{% url 'delete_purchase' p.id %}">
+          {% csrf_token %}
+          <button type="submit" class="remove-btn">Remove</button>
+        </form>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="text-muted">You haven't purchased any cars yet.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

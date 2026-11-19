@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+  .hero-banner {
+    position: relative;
+    height: 300px;
+    background: url("{% static 'img/cover-2.jpg' %}") no-repeat center center/cover;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .hero-banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .hero-text {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+  }
+
+  .hero-text h1 {
+    font-weight: 700;
+    font-size: 2.8rem;
+  }
+
+  .brand-btn {
+    font-weight: 500;
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .brand-btn:hover {
+    background: #198754;
+    color: white;
+    transform: scale(1.05);
+  }
+
+  .car-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .car-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .car-img {
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .car-info {
+    padding: 1rem 1.2rem;
+  }
+
+  .price-tag {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0d6efd;
+  }
+
+  .view-btn {
+    background: linear-gradient(to right, #0d6efd, #6610f2);
+    border: none;
+    font-weight: 500;
+    color: white;
+    border-radius: 25px;
+    padding: 0.4rem 1.2rem;
+    transition: background 0.3s ease;
+  }
+
+  .view-btn:hover {
+    background: linear-gradient(to right, #0b5ed7, #520dc2);
+  }
+</style>
+
+<!-- Hero Banner -->
+<div class="hero-banner mb-5">
+  <div class="hero-text">
+    <h1>Explore Our Exclusive Car Collection</h1>
+    <p class="lead">Luxury, Power & Performance</p>
+  </div>
+</div>
+
+<!-- Brand Filters -->
+<div class="text-center mb-5">
+  {% for b in brands %}
+    <a href="{% url 'brand_wise' b.slug %}" class="btn btn-outline-success brand-btn mx-1 mb-2">
+      {{ b.name }}
+    </a>
+  {% endfor %}
+</div>
+
+<!-- Car Listings -->
+<div class="row g-4">
+  {% if cars %}
+    {% for c in cars %}
+      <div class="col-lg-4 col-md-6">
+        <div class="card car-card h-100">
+          <img src="{{ c.feature_image.url }}" class="card-img-top car-img" alt="{{ c.model_name }}">
+          <div class="car-info d-flex flex-column">
+            <h5 class="mb-1">{{ c.model_name }}</h5>
+            <p class="price-tag">~ ${{ c.price }}</p>
+            <a href="{% url 'car_details' c.id %}" d class="view-btn mt-auto text-center text-decoration-none">View Details</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="col-12 text-center">
+      <h3 class="text-muted">No Cars Available</h3>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock content %}

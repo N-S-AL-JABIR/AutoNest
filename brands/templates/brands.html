@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, #ece9e6, #ffffff);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .form-card {
+    max-width: 500px;
+    margin: 50px auto;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+    background-color: #ffffff;
+    transition: transform 0.3s ease;
+  }
+
+  .form-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .form-title {
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #343a40;
+  }
+
+  .btn-custom {
+    background: linear-gradient(135deg, #007bff, #00c6ff);
+    border: none;
+    color: white;
+    padding: 0.6rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    transition: background 0.3s ease;
+  }
+
+  .btn-custom:hover {
+    background: linear-gradient(135deg, #0056b3, #009ec3);
+  }
+</style>
+
+<div class="form-card">
+  <h2 class="form-title text-center">Add a Brand</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-custom">Submit</button>
+    </div>
+  </form>
+</div>
+<div class='pb-5'></div>
+<div class='pb-5'></div>
+{% endblock content %}

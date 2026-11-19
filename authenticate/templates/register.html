@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center pt-5 pb-3">
+  <div class="card shadow p-4" style="width: 100%; max-width: 400px; border-radius: 1rem;">
+    <h3 class="text-center mb-4">{{ type }}</h3>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form|crispy }}
+      <div class="d-grid mt-3">
+        <button type="submit" class="btn btn-primary btn-block">{{ type }}</button>
+      </div>
+    </form>
+
+    {% if type == 'Login' %}
+    <div class="text-center mt-3">
+      <small class="text-muted">Don't have an account?</small><br>
+      <a href="{% url 'register' %}" class="btn btn-link">Sign Up</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}
